@@ -1,6 +1,5 @@
 pipeline {
    agent any
-   tools {nodejs "newman"}
    tools {nodejs "python"}
      parameters {
          string(name: 'apikey', defaultValue: '', description: 'api-postman-key')
@@ -8,7 +7,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh "newman run https://api.getpostman.com/collections/19310415-9ceacf35-139d-4482-b6e1-b03f6fc16651?apikey=${params.apikey} --disable-unicode"
+                //sh "newman run https://api.getpostman.com/collections/19310415-9ceacf35-139d-4482-b6e1-b03f6fc16651?apikey=${params.apikey} --disable-unicode"
                 sh 'python --version'
             }
             
