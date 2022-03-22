@@ -1,6 +1,6 @@
 pipeline {
    agent any
-   tools {nodejs "python"}
+   tools {nodejs "python",nodejs "newman"}
      parameters {
          string(name: 'apikey', defaultValue: '', description: 'api-postman-key')
      }
