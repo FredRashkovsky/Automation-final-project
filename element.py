@@ -7,11 +7,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Locators import locators
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
 import csv
 
 class elements:
     def __init__(self):
-        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+        service = ChromeService(executable_path=ChromeDriverManager().install())
+        self.driver = webdriver.Chrome(service=service)
         self.wait = WebDriverWait(self.driver, 4)
         self.driver.get(constans.URL)
         self.driver.maximize_window()
