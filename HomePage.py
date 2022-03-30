@@ -2,7 +2,7 @@ from Locators import locators
 from element import elements
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
-
+from applitools.selenium import Target
 class HomePage(elements):
     def __init__(self):
         elements.__init__(self)
@@ -12,6 +12,7 @@ class HomePage(elements):
         for row in self.csv_file:
             new_dict = dict(row)
             new_dict.pop('lastname')
+            self.eyes.check("", Target.window().fully().with_name("contectUs"))
             for index, x in enumerate(new_dict.items()):
                 self.field(locators.contect_us_Locators[index],x[1])
         
@@ -30,7 +31,7 @@ class HomePage(elements):
             self.wait.until(EC.element_to_be_clickable(locators.book_room_button)).click()
             days = self.get_element_of_all_days()
             Unavailables = 0
-        
+            self.eyes.check("", Target.window().fully().with_name("bookingRoom"))
             try: Unavailables = self.get_all_dates_that_are_avilable()
             #If it's a free month then there will not be any "Unavailable" element so it's ok o pass it
             except TimeoutException: pass 
@@ -66,6 +67,7 @@ class HomePage(elements):
             new_dict.pop('subject	')
             new_dict.pop('massage')
             self.wait.until(EC.element_to_be_clickable(locators.book_room_button)).click()
+            self.eyes.check("", Target.window().fully().with_name("bookingRoomTaken"))
             days = self.get_element_of_all_days()
             self.drag_and_drop(days[0], days[1] , days[3])
             for index, x in enumerate(new_dict.items()): 

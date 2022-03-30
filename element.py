@@ -5,21 +5,33 @@ from selenium.webdriver import ActionChains
 from  Constans import constans
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from Locators import locators
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
+from Locators import locators
 import csv
-
+import os
+from applitools.selenium import (
+    Eyes,
+    BatchInfo,
+    BrowserType,
+)
 class elements:
     def __init__(self):
-        service = ChromeService(executable_path=ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
+
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+        
         self.wait = WebDriverWait(self.driver, 4)
         self.driver.get(constans.URL)
-        self.driver.maximize_window()
         self.csv_file = open('data.csv', 'r')
         self.csv_file = csv.DictReader(self.csv_file)
 
+    def setup(self, runner):
+        self.eyes = Eyes(runner)
+        self.eyes.api_key = os.environ["APPLITOOLS_API_KEY"]
+        self.eyes.configure.set_batch(BatchInfo("Ultrafast Batch"))
+        self.eyes.configure.add_browser(800, 600, BrowserType.CHROME)
+        self.eyes.open(
+            self.driver, "Booking rooms", "Ultrafast Batch", {"width": 800, "height": 600}
+        )
 
     def field(self, locator, string):
         #Does what names suggest
